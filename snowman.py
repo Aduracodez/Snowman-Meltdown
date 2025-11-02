@@ -31,12 +31,22 @@ STAGES = [
     /___\\ 
     """
 ]
-git
 
 def get_random_word():
     """Selects a random word from the list."""
     return WORDS[random.randint(0, len(WORDS) - 1)]
+def display_game_state(mistakes, secret_word, guessed_letters):
+    """Show the current snowman stage and the masked secret word."""
+    # Clamp mistakes to a valid index so we never crash
+    stage_idx = min(max(0, mistakes), len(STAGES) - 1)
+    print(STAGES[stage_idx])
 
+    # Build a display version of the secret word.
+    display_word = []
+    for letter in secret_word:
+        display_word.append(letter if letter in guessed_letters else "_")
+    print("Word:", " ".join(display_word))
+    print(f"Mistakes: {mistakes}/{len(STAGES)-1}\n")
 
 def play_game():
     secret_word = get_random_word()
